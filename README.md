@@ -6,7 +6,7 @@ Tools written in TypeScript to handle AWS Signature Version 4 signing process of
 
 Import this code (class and data model), initialize data model e.g.:
 
-`let awsSignatureInputData = new AwsSignatureInputData();
+```let awsSignatureInputData = new AwsSignatureInputData();
 
 awsSignatureInputData.method = 'POST';
 awsSignatureInputData.canonicalUri = '/api/example/login/';
@@ -17,9 +17,10 @@ awsSignatureInputData.accessKey = '<EXAMPLE_ACCESS_KEY>';
 awsSignatureInputData.secretKey = '<EXAMPLE_SECRET_KEY>';
 awsSignatureInputData.contentType = 'application/json';
 awsSignatureInputData.requestParameters = '{"username":"andrzej","password":"UhR*^sf#("}';
-awsSignatureInputData.canonicalQuerystring = '';`
+awsSignatureInputData.canonicalQuerystring = '';```
 
 requestParameters - the body of a request
+
 canonicalQuerystring - in case of a GET request, url parameters string
 
 then just call the imported module:
