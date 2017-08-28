@@ -1,6 +1,6 @@
 # AWS Signature Version 4 handler in TypeScript
 
-Tools written in TypeScript to handle AWS Signature Version 4 signing process of the EC2 API requests. Code uses CryptoJS library to generate the signature.
+Tools written in TypeScript to handle AWS Signature Version 4 signing process of the EC2 API requests. Code uses CryptoJS library to generate the signature, thus this is a required dependency. Should be easy to integrate with an Angular 2/4 project (aws-signature.ts can be easily transformed into a service).
 
 # Example usage with a POST request
 
