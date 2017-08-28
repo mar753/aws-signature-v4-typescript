@@ -3,7 +3,7 @@ import * as CryptoJS from 'crypto-js';
 import { AwsSignatureInputData } from './aws-signature-input.model';
 
 /**
- * Amazon web services (AWS) API requests signing tool.
+ * Amazon web services (AWS) Signature version 4 - EC2 API requests signing tool.
  * @class AwsSignature
  */
 export class AwsSignature {
