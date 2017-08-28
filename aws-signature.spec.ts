@@ -4,7 +4,6 @@ import { AwsSignatureInputData } from './aws-signature-input.model';
 /**
  * Jasmine unit tests
  */
-
 describe('aws-signature tests', () => {
     let signingTool: AwsSignature;
 
