@@ -3,13 +3,22 @@ import * as CryptoJS from 'crypto-js';
 import { AwsSignatureInputData } from './aws-signature-input.model';
 
 /**
- * Amazon web services (AWS) API requests signing service.
+ * Amazon web services (AWS) API requests signing tool.
+ * @class AwsSignature
  */
-export class AwsSignatureService {
+export class AwsSignature {
     constructor() {}
 
-    generateSignature(input: AwsSignatureInputData): Object {
-        let currentDate = new Date();
+    /**
+     * Generates the signature
+     *
+     * @param {AwsSignatureInputData} input - structure with data to be signed and keys
+     * @param {Date} currentDate - optional parameter to pass custom date
+     */
+    generateSignature(input: AwsSignatureInputData, currentDate: Date = new Date()): Object {
+        if (!input) {
+            return {};
+        }
         let amzDate = currentDate.toISOString().replace(/-|:|\..{3}/g, '');
         let dateStamp = amzDate.substr(0, 8);
 
