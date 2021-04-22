@@ -8,7 +8,7 @@ describe('aws-signature tests', () => {
     let signingTool: AwsSignature;
 
     function prepareAwsSignatureInput(): AwsSignatureInputData {
-        let awsSignatureInputData = new AwsSignatureInputData();
+        const awsSignatureInputData = new AwsSignatureInputData();
         awsSignatureInputData.method = 'POST';
         awsSignatureInputData.canonicalUri = '/api/patient/1';
         awsSignatureInputData.host = 'test-api.com';
@@ -25,9 +25,9 @@ describe('aws-signature tests', () => {
     beforeEach(() => { signingTool = new AwsSignature(); });
 
     it('should return correct signature', () => {
-        let data = prepareAwsSignatureInput();
-        let date = new Date('2017-08-20T10:00:22Z');
-        let output = signingTool.generateSignature(data, date);
+        const data = prepareAwsSignatureInput();
+        const date = new Date('2017-08-20T10:00:22Z');
+        const output = signingTool.generateSignature(data, date);
         expect(output['Content-Type']).toBe('application/json');
         expect(output['X-Amz-Date']).toBe('20170820T100022Z');
         expect(output['Authorization']).toBe(
@@ -37,9 +37,9 @@ describe('aws-signature tests', () => {
     });
 
     it('should return empty object when input data is null or undefined', () => {
-        let data = null;
-        let date = new Date('2017-08-20T10:00:22Z');
-        let output = signingTool.generateSignature(data, date);
+        const data = null;
+        const date = new Date('2017-08-20T10:00:22Z');
+        const output = signingTool.generateSignature(data, date);
         expect(Object.keys(output).length).toBe(0);
     });
 
