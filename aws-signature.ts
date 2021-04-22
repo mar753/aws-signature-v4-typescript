@@ -19,14 +19,14 @@ export class AwsSignature {
         if (!input) {
             return {};
         }
-        let { canonicalHeaders, dateStamp, amzDate } =
+        const { canonicalHeaders, dateStamp, amzDate } =
             this.prepareCanonicalHeaders(currentDate, input);
-        let { canonicalRequest, signedHeaders } =
+        const { canonicalRequest, signedHeaders } =
             this.prepareCanonicalRequest(input, canonicalHeaders);
-        let { stringToSign, algorithm, credentialScope } =
+        const { stringToSign, algorithm, credentialScope } =
             this.generateStringToSign(dateStamp, input, amzDate, canonicalRequest);
-        let signature = this.signString(input, dateStamp, stringToSign);
-        let authorizationHeader = this.generateAuthorizationHeader(
+        const signature = this.signString(input, dateStamp, stringToSign);
+        const authorizationHeader = this.generateAuthorizationHeader(
             algorithm, input, credentialScope, signedHeaders, signature);
 
         return {'Content-Type': input.contentType,
@@ -43,36 +43,40 @@ export class AwsSignature {
     }
 
     private signString(input: AwsSignatureInputData, dateStamp: string, stringToSign: string) {
-        let signingKey = this.getSignatureKey(input.secretKey, dateStamp, input.region, input.service);
-        let signature = CryptoJS.HmacSHA256(stringToSign, signingKey).toString();
+        const signingKey = this.getSignatureKey(input.secretKey, dateStamp, input.region, input.service);
+        const signature = CryptoJS.HmacSHA256(stringToSign, signingKey).toString();
+
         return signature;
     }
 
     private generateStringToSign(dateStamp: string, input: AwsSignatureInputData, amzDate: string,
         canonicalRequest: string)
     {
-        let algorithm = 'AWS4-HMAC-SHA256';
-        let credentialScope = dateStamp + '/' + input.region + '/'
+        const algorithm = 'AWS4-HMAC-SHA256';
+        const credentialScope = dateStamp + '/' + input.region + '/'
             + input.service + '/' + 'aws4_request';
-        let stringToSign = algorithm + '\n' + amzDate + '\n' + credentialScope +
+        const stringToSign = algorithm + '\n' + amzDate + '\n' + credentialScope +
             '\n' + CryptoJS.SHA256(canonicalRequest).toString();
+
         return { stringToSign, algorithm, credentialScope };
     }
 
     private prepareCanonicalRequest(input: AwsSignatureInputData, canonicalHeaders: string) {
-        let signedHeaders = 'content-type;host;x-amz-date';
-        let payloadHash = CryptoJS.SHA256(input.requestParameters).toString();
-        let canonicalRequest = input.method + '\n' + input.canonicalUri + '\n'
+        const signedHeaders = 'content-type;host;x-amz-date';
+        const payloadHash = CryptoJS.SHA256(input.requestParameters).toString();
+        const canonicalRequest = input.method + '\n' + input.canonicalUri + '\n'
             + input.canonicalQuerystring + '\n' + canonicalHeaders + '\n'
             + signedHeaders + '\n' + payloadHash;
+
         return { canonicalRequest, signedHeaders };
     }
 
     private prepareCanonicalHeaders(currentDate: Date, input: AwsSignatureInputData) {
-        let amzDate = currentDate.toISOString().replace(/-|:|\..{3}/g, '');
-        let dateStamp = amzDate.substr(0, 8);
-        let canonicalHeaders = 'content-type:' + input.contentType + '\n' + 'host:'
+        const amzDate = currentDate.toISOString().replace(/-|:|\..{3}/g, '');
+        const dateStamp = amzDate.substr(0, 8);
+        const canonicalHeaders = 'content-type:' + input.contentType + '\n' + 'host:'
             + input.host + '\n' + 'x-amz-date:' + amzDate + '\n';
+
         return { canonicalHeaders, dateStamp, amzDate };
     }
 
@@ -82,10 +86,11 @@ export class AwsSignature {
         regionName: string,
         serviceName: string): any
     {
-        var kDate = CryptoJS.HmacSHA256(dateStamp, "AWS4" + key);
-        var kRegion = CryptoJS.HmacSHA256(regionName, kDate);
-        var kService = CryptoJS.HmacSHA256(serviceName, kRegion);
-        var kSigning = CryptoJS.HmacSHA256("aws4_request", kService);
+        const kDate = CryptoJS.HmacSHA256(dateStamp, "AWS4" + key);
+        const kRegion = CryptoJS.HmacSHA256(regionName, kDate);
+        const kService = CryptoJS.HmacSHA256(serviceName, kRegion);
+        const kSigning = CryptoJS.HmacSHA256("aws4_request", kService);
+
         return kSigning;
     }
 }
